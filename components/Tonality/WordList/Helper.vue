@@ -105,9 +105,6 @@ const designations = [
                 @click="showModal = false">Я всё
                 понял!</button>
         </div>
-        <div class="close">
-            <img class="close-img" src="~/assets/close-icon.svg" alt="" />
-        </div>
     </div>
 </template>
 
