@@ -1,5 +1,4 @@
 import { defineStore } from "pinia";
-
 export const useAlgorithmsStore = defineStore("algorithms", () => {
   function quickSortByAlphabet(
     arr: Array<Tonality>,
@@ -99,6 +98,7 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
 
   function getTonalityWords(arr: string[], dataset: Tonality[]): Tonality[] {
     const tonalityMap: { [key: string]: Tonality } = {};
+    const alreadyNegatedWords: { [key: string]: boolean } = {};
 
     dataset.forEach((item) => {
       tonalityMap[item.term] = item;
@@ -106,10 +106,59 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
 
     let resultArray: Tonality[] = [];
 
-    arr.forEach((word) => {
+    arr.forEach((word, index) => {
       if (tonalityMap[word]) {
-        const tonality = tonalityMap[word];
-        resultArray.push(tonality);
+        if (word === "не") {
+          const nextWord = arr[index + 1];
+          const combinedWord = word + " " + nextWord;
+          if (tonalityMap[nextWord]) {
+            const tonality = tonalityMap[nextWord];
+            const tonalityCopy = JSON.parse(JSON.stringify(tonality));
+            tonalityCopy.antonym = tonality.term;
+            tonalityCopy.term = combinedWord;
+            tonalityCopy.value = (-Number(tonality.value)).toString();
+            resultArray.push(tonalityCopy);
+            alreadyNegatedWords[nextWord] = true;
+          }
+        } else if (word === "очень" || word === "более") {
+          const nextWord = arr[index + 1];
+          const combinedWord = word + " " + nextWord;
+          if (tonalityMap[nextWord]) {
+            const tonality = tonalityMap[nextWord];
+            const tonalityCopy = JSON.parse(JSON.stringify(tonality));
+            tonalityCopy.term = combinedWord;
+            tonalityCopy.value = (
+              Number(tonality.value) > 0
+                ? Number(tonality.value) + 0.2
+                : Number(tonality.value) - 0.2
+            ).toString();
+            tonalityCopy.value = Math.min(1, tonalityCopy.value);
+            tonalityCopy.value = Math.max(-1, tonalityCopy.value);
+            resultArray.push(tonalityCopy);
+            alreadyNegatedWords[nextWord] = true;
+          }
+        } else if (word === "менее") {
+          const nextWord = arr[index + 1];
+          const combinedWord = word + " " + nextWord;
+          if (tonalityMap[nextWord]) {
+            const tonality = tonalityMap[nextWord];
+            const tonalityCopy = JSON.parse(JSON.stringify(tonality));
+            tonalityCopy.term = combinedWord;
+            tonalityCopy.value = (
+              Number(tonality.value) > 0
+                ? Number(tonality.value) - 0.2
+                : Number(tonality.value) + 0.2
+            ).toString();
+            resultArray.push(tonalityCopy);
+            alreadyNegatedWords[nextWord] = true;
+          }
+        } else if (
+          !alreadyNegatedWords[word] &&
+          !resultArray.includes(tonalityMap[word])
+        ) {
+          const tonality = tonalityMap[word];
+          resultArray.push(tonality);
+        }
       }
     });
 
@@ -125,11 +174,38 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
   }
   // * Получение средней тональности всего текста
 
+  async function getResultTonality(query: string): Promise<string> {
+    const dataToSend =
+      query +
+      "Расскажи про тональность данного текста. Не выделяй текст полужирным шрифтом и не используй * в тексте";
+
+    try {
+      const response = await fetch("http://localhost:5000/api/query", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(dataToSend),
+      });
+
+      if (!response.ok) {
+        throw new Error("Ошибка при выполнении запроса.");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error("Ошибка:", error);
+      throw error;
+    }
+  }
+
   return {
     quickSortByAlphabet,
     mergeSort,
     splitSentenceIntoWords,
     getTonalityWords,
     calculateAverageValue,
+    getResultTonality,
   };
 });
