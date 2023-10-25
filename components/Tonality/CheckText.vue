@@ -21,6 +21,7 @@ async function getSplitText() {
         textOfTonality.value = storeAlgorithms.getTonalityWords(splitText.value, storeTonality.dataSetOfTonality)
         totalTonality.value = storeAlgorithms.calculateAverageValue(textOfTonality.value)
         characterizationOfTonality.value = await storeAlgorithms.getResultTonality(allText.value)
+        characterizationOfTonality.value = characterizationOfTonality.value.replace(/\*/g, '')
         isLoading.value = false
     }
 }
