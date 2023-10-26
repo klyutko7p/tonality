@@ -1,3 +1,9 @@
+<script setup lang="ts">
+defineProps({
+    allWords: { type: Array<Tonality>, required: true },
+})
+</script>
+
 <template>
     <div v-for="word in allWords" class="grid grid-cols-7 text-center border-y-2 mb-5 border-hover-color pb-3 py-5">
         <h1>{{ word.term }}</h1>
@@ -9,13 +15,3 @@
         <h1>{{ word.antonym }}</h1>
     </div>
 </template>
-
-<script setup lang="ts">
-
-defineProps({
-    allWords: { type: Array<Tonality>, required: true },
-})
-
-</script>
-
-<style scoped></style>

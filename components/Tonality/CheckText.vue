@@ -25,7 +25,7 @@ async function getSplitText() {
         isLoading.value = false
     }
 }
-// Функция находит значения общей тональности и слова с их тональностью
+// Функция находит значения общей тональности, слова с их тональностью и классификацию тональности
 
 function getExampleText(numberOfText: number) {
     allText.value = storeTonality.getExampleText(numberOfText)

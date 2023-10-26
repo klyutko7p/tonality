@@ -35,7 +35,7 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
   function mergeSort(
     arr: Array<Tonality>,
     descending = false,
-    fieldName: keyof Tonality
+    fieldName: keyof Tonality | null
   ): Array<Tonality> {
     if (arr.length <= 1) {
       return arr;
@@ -175,10 +175,7 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
   // * Получение средней тональности всего текста
 
   async function getResultTonality(query: string): Promise<string> {
-    const dataToSend =
-      query +
-      "Расскажи про тональность данного текста. Не выделяй текст полужирным шрифтом и не используй * в тексте";
-
+    const dataToSend = query + "Расскажи про тональность данного текста.";
     try {
       const response = await fetch("http://localhost:5000/api/query", {
         method: "POST",
@@ -199,6 +196,7 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
       throw error;
     }
   }
+  // * Получение классификации тональности через сервер Flask на Python (Bard AI)
 
   return {
     quickSortByAlphabet,
