@@ -35,7 +35,7 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
   function mergeSort(
     arr: Array<Tonality>,
     descending = false,
-    fieldName: keyof Tonality | null
+    fieldName: keyof Tonality
   ): Array<Tonality> {
     if (arr.length <= 1) {
       return arr;
