@@ -7,6 +7,8 @@ const links = [
     { link: "/tonality/negative-words", title: "Отрицательные слова", },
     { link: "/tonality/search", title: "Поиск", },
 ]
+
+let isActive = ref(false)
 </script>
 
 
@@ -21,8 +23,19 @@ const links = [
                 <h1>{{ link.title }}</h1>
             </NuxtLink>
         </div>
-        <div class="px-10 max-lg:block hidden">
-            <Icon name="material-symbols:list-rounded" size="42" />
+        <div class="px-10 max-lg:block hidden" v-if="!isActive">
+            <Icon name="material-symbols:list-rounded" size="42" @click="isActive = true" />
+        </div>
+        <div v-if="isActive" class="text-right px-3 max-w-[400px]">
+            <div class="px-10 max-lg:block hidden" v-if="isActive">
+                <Icon name="material-symbols:list-rounded" size="42" @click="isActive = false" />
+            </div>
+            <div class="text-right">
+                <NuxtLink v-for="link in links" active-class="text-hover-color" :to="link.link"
+                    class="hover:text-hover-color text-white duration-200 font-bold">
+                    <h1 class="mb-1">{{ link.title }}</h1>
+                </NuxtLink>
+            </div>
         </div>
     </div>
 </template>

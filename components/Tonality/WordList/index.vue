@@ -71,10 +71,11 @@ onMounted(async () => {
 
 <template>
     <div class="mb-10">
-        <div class="flex px-5 items-center justify-between mb-10">
+        <div class="flex px-5 max-sm:flex-col gap-3 items-center justify-between mb-10">
             <TonalityWordListDescription :header="header" :word-list="wordList" :is-all="isAll" />
             <div v-if="allWords.length > 0">
-                <h1 class="text-xl mb-2 text-center">Страница: {{ currentPage }} из {{ totalPages }}</h1>
+                <h1 class="text-xl max-sm:text-lg mb-2 text-center">Страница: <br> {{ currentPage }} из {{ totalPages }}
+                </h1>
                 <div class="flex items-center justify-center gap-2">
                     <button @click="prevPage(), updateCurrentPageData()" :disabled="currentPage === 1"
                         class="disabled:bg-hover-color duration-150 bg-primary-color border-2 border-hover-color flex items-center justify-center rounded-sm p-3">
@@ -88,9 +89,29 @@ onMounted(async () => {
             </div>
         </div>
 
-        <div v-if="isLoading === false">
+        <div v-if="isLoading === false" class="px-1 max-lg:hidden">
             <div class="grid grid-cols-7 text-center mb-3 pb-3">
                 <div v-for="column in columns" class="flex items-center justify-center gap-3">
+                    <h1>{{ column.label }}</h1>
+                    <div v-if="column.field !== 'antonym'">
+                        <Icon @click="sortAndFilterData('+', column.field)"
+                            class="hover:text-hover-color duration-300 cursor-pointer" name="ic:baseline-keyboard-arrow-up"
+                            size="24" />
+                        <Icon @click="sortAndFilterData('-', column.field)"
+                            class="hover:text-hover-color duration-300 cursor-pointer"
+                            name="material-symbols:keyboard-arrow-down-rounded" size="24" />
+                    </div>
+                </div>
+            </div>
+            <TonalityWordListCollection :all-words="allWords.slice(0, 20)" v-if="allWords.length > 0" />
+            <div v-else class=" flex items-center justify-center flex-col text-4xl mt-10">
+                <h1>Данное слово или словосочетание <span class="text-hover-color">не найдено!</span> </h1>
+                <Icon name="fluent-emoji:sad-but-relieved-face" size="56" class="mt-5" />
+            </div>
+        </div>
+        <div v-if="isLoading === false" class="hidden max-lg:block">
+            <div class="mb-3 pb-3">
+                <div v-for="column in columns" class="flex items-center gap-3">
                     <h1>{{ column.label }}</h1>
                     <div v-if="column.field !== 'antonym'">
                         <Icon @click="sortAndFilterData('+', column.field)"

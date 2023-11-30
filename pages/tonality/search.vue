@@ -49,8 +49,7 @@ function searchWord() {
 
     <div v-if="filteredWords.length > 0">
         <div v-if="filteredWords.length > 0">
-            <TonalityWordListFilters />
-            <TonalityWordListCollection :all-words="filteredWords" />
+            <TonalityWordListCollection :all-words="filteredWords" class="px-3" />
         </div>
     </div>
     <div v-else-if="filteredWords.length === 0 && click === 0" class="text-center">

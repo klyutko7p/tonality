@@ -7,9 +7,10 @@ defineProps({
 
 <template>
     <div v-if="flag === '+' && textOfTonality.length > 0" class="container mx-auto mt-12 mb-10">
-        <h1 class="text-2xl text-center mb-10">Если вы хотите повысить тональность своего текста, то уберите или замените
+        <h1 class="text-2xl text-center mb-10 max-sm:px-3">Если вы хотите повысить тональность своего текста, то уберите или
+            замените
             следующие слова:</h1>
-        <div class="grid grid-cols-4 gap-10">
+        <div class="grid grid-cols-4 max-md:grid-cols-2 max-sm:grid-cols-1 p-3 gap-10">
             <div v-for="word in textOfTonality.filter((a) => +a.value <= -0.35)">
                 <div class="flex py-5 px-3 flex-col text-center border-2 border-hover-color">
                     <h1 class=" text-lg text-red-600 font-bold">{{ word.term }} ({{
@@ -26,9 +27,9 @@ defineProps({
     </div>
 
     <div v-if="flag === '+-' && textOfTonality.length > 0" class="container mx-auto mt-12 mb-10">
-        <h1 class="text-2xl text-center mb-10">Нейтральные слова
+        <h1 class="text-2xl text-center mb-10 max-sm:px-3">Нейтральные слова
         </h1>
-        <div class="grid grid-cols-4 gap-10">
+        <div class="grid grid-cols-4 max-md:grid-cols-2 max-sm:grid-cols-1 p-3 gap-10">
             <div v-for="word in textOfTonality.filter((a) => +a.value < 0.55 && +a.value > -0.35)">
                 <div class="flex py-5 px-3 flex-col text-center border-2 border-hover-color">
                     <h1 class=" text-lg text-gray-300 font-bold">{{ word.term }} ({{
@@ -45,9 +46,10 @@ defineProps({
     </div>
 
     <div v-if="flag === '-' && textOfTonality.length > 0" class="container mx-auto mt-12 mb-10">
-        <h1 class="text-2xl text-center mb-10">Чтоб текст стал более отрицательным, уберите или замените следующие слова:
+        <h1 class="text-2xl text-center mb-10 max-sm:px-3">Чтоб текст стал более отрицательным, уберите или замените
+            следующие слова:
         </h1>
-        <div class="grid grid-cols-4 gap-10">
+        <div class="grid grid-cols-4 max-md:grid-cols-2 max-sm:grid-cols-1 p-3 gap-10">
             <div v-for="word in textOfTonality.filter((a) => +a.value >= 0.55)">
                 <div class="flex py-5 px-3 flex-col text-center border-2 border-hover-color">
                     <h1 class=" text-lg text-green-600 font-bold">{{ word.term }} ({{

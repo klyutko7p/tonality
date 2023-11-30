@@ -86,7 +86,6 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
         }
       }
     }
-
     return result.concat(left.slice(leftIndex), right.slice(rightIndex));
   }
   // * Объединяет два массива в отсортированный массив (для merge sort).
@@ -105,6 +104,7 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
     });
 
     let resultArray: Tonality[] = [];
+    let wordsWithoutTonality: Tonality[] = [];
 
     arr.forEach((word, index) => {
       if (tonalityMap[word]) {
@@ -159,6 +159,19 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
           const tonality = tonalityMap[word];
           resultArray.push(tonality);
         }
+      } else {
+        const tonality: Tonality = {
+          term: word,
+          value: "Нет информации",
+          antonym: "Нет информации",
+          tag: "Нет информации",
+          pstv: "Нет информации",
+          pstvNgtvDisagreementRatio: "Нет информации",
+          ngtv: "Нет информации",
+          neut: "Нет информации",
+          dunno: "Нет информации",
+        };
+        wordsWithoutTonality.push(tonality);
       }
     });
 
@@ -186,13 +199,14 @@ export const useAlgorithmsStore = defineStore("algorithms", () => {
       });
 
       if (!response.ok) {
+        alert("Ошибка при выполнении запроса.");
         throw new Error("Ошибка при выполнении запроса.");
       }
-
       const data = await response.json();
       return data;
     } catch (error) {
       console.error("Ошибка:", error);
+      alert(error);
       throw error;
     }
   }

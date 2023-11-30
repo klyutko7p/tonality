@@ -8,9 +8,9 @@ defineProps({
 
 <template>
     <div>
-        <h1 class="text-4xl" v-if="!isAll">{{ header }} (Метка: {{ wordList[0].tag }})</h1>
-        <h1 class="text-4xl" v-else>{{ header }}</h1>
-        <h1 class="text-2xl">Общее количество слов: {{ wordList.length }}</h1>
+        <h1 class="text-4xl max-sm:text-2xl" v-if="!isAll">{{ header }} (Метка: {{ wordList[0].tag }})</h1>
+        <h1 class="text-4xl max-sm:text-2xl" v-else>{{ header }}</h1>
+        <h1 class="text-2xl max-sm:text-xl">Общее количество слов: {{ wordList.length }}</h1>
     </div>
 </template>
 
