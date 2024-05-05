@@ -1,3 +1,5 @@
+![изображение](https://github.com/klyutko7p/tonality/assets/95645570/a5a36d3e-7a17-492b-885c-478aa6f8ebe3)
+
 # Nuxt 3 Minimal Starter
 
 Look at the [Nuxt 3 documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
